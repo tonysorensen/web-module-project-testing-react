@@ -1,48 +1,59 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-import {fetchShow as mockFetchShow } from "../../api/fetchShow";
+
 import Display from "../Display";
+
 import userEvent from "@testing-library/user-event";
-import Show from "../Show";
 
+import mockFetchShow from "../../api/fetchShow";
+jest.mock("../../api/fetchShow");
 
-jest.mock("axios");
-
-const testShow = {
-  //add in approprate test data structure here.
-  name: "",
-  summary: "",
-  seasons: [
-    {
-      id: 1,
-      name: "Season 1",
-      episodes: [],
-    },
-    {
-      id: 2,
-      name: "Season 2",
-      episodes: [],
-    },
-    {
-      id: 3,
-      name: "Season 3",
-      episodes: [],
-    },
-  ],
-};
 
 test("renders without and props passed", () => {
   render(<Display />);
+  const altText = screen.getByAltText("header image");
+  expect(altText).toBeDefined();
 });
 
+test("when the fetch button is pressed, the show component will display", async () => {
+  mockFetchShow.mockResolvedValueOnce( {
 
-test("when the fetch button is pressed, the show component will display", async ()=> {
+    name: "test",
+    image: "",
+    summary: "",
+    seasons: [
+      {
+        id: 1,
+        name: "Season 1",
+        episodes: [],
+      },
+      {
+        id: 2,
+        name: "Season 2",
+        episodes: [],
+      },
+      {
+        id: 3,
+        name: "Season 3",
+        episodes: [],
+      },
+    ],
+  });
     render(<Display />);
-    const btn = screen.getByText(/Press to/i)
-    expect (btn).toBeDefined();
-    userEvent.click(btn)
-    await waitFor(() => expect(screen.getAllByTestId(/container/i)).toHaveLength(3));
-} )
+    
+    
+
+    const btn = screen.getByRole('button');
+    expect(btn).toBeDefined()
+    userEvent.click(btn);
+    
+    await waitFor(() => {
+      const show = screen.getByTestId("show-container")
+      expect(show).toBeDefined();
+       
+  });
+});
+
 ///Tasks:
 //1. Add in nessisary imports and values to establish the testing suite.
 //2. Test that the Display component renders without any passed in props.

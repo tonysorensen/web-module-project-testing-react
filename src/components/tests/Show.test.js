@@ -7,7 +7,8 @@ import Loading from "../Loading";
 
 const testShow = {
   //add in approprate test data structure here.
-  name: "",
+  name: "test",
+  image: "",
   summary: "",
   seasons: [
     {
