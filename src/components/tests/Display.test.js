@@ -54,6 +54,46 @@ test("when the fetch button is pressed, the show component will display", async 
   });
 });
 
+
+test("when the fetch button is pressed, the show component will display", async () => {
+  mockFetchShow.mockResolvedValueOnce( {
+
+    name: "test",
+    image: "",
+    summary: "",
+    seasons: [
+      {
+        id: 1,
+        name: "Season 1",
+        episodes: [],
+      },
+      {
+        id: 2,
+        name: "Season 2",
+        episodes: [],
+      },
+      {
+        id: 3,
+        name: "Season 3",
+        episodes: [],
+      },
+    ],
+  });
+    render(<Display />);
+    
+    
+
+    const btn = screen.getByRole('button');
+    expect(btn).toBeDefined()
+    userEvent.click(btn);
+    
+    await waitFor(() => {
+      const seasons = screen.getAllByTestId("season-option")
+      expect(seasons).toHaveLength(3);
+       
+  });
+});
+
 ///Tasks:
 //1. Add in nessisary imports and values to establish the testing suite.
 //2. Test that the Display component renders without any passed in props.
