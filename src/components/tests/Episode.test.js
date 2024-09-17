@@ -8,25 +8,41 @@ const testEpisode = {
     image: "http://static.tvmaze.com/uploads/images/medium_landscape/67/168918.jpg",
     season: 1,
     number: 1,
-    summary: "",
+    summary: "test summary",
     runtime: 1
 }
 
 const testEpisodeWithoutImage = {
     //Add in approprate test data structure here.
+    id:1,
+    name: "",
+    image: null,
+    season: 1,
+    number: 1,
+    summary: "",
+    runtime: 1
 }
 
 test("renders without error", () => {
-
+render(<Episode episode={testEpisode}/>)
 });
+//renders fine. sanity checked with misspelled testEpisod
 
 test("renders the summury test passed as prop", ()=>{
-    
+ render(<Episode episode={testEpisode}/>);
+ const testSummary = screen.getByText(/test summary/i);
+ expect(testSummary).toBeDefined()   
 });
+// sanity checked by seeing if testSummary was Undefined and it failed.
+
 
 test("renders default image when image is not defined", ()=>{
-    
+ render(<Episode episode={testEpisodeWithoutImage}/>);
+ const defaultImage= screen.getByAltText('./stranger_things.png');
+ expect(defaultImage).toBeDefined()   
 })
+//sanity checked
+
 
 //Tasks
 //1. Complete a test that shows the Episode component renders. Pass in the provided example episode data as a test prop.
